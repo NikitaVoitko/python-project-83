@@ -1,0 +1,25 @@
+[tool.poetry]
+name = "hexlet-code"
+version = "0.1.0"
+description = ""
+authors = ["Nikita <voitko1994@gmail.com>"]
+readme = "README.md"
+packages = [
+    { include = "page_analyzer" }
+]
+
+[tool.poetry.dependencies]
+python = ">=3.8.1"
+flask = "^3.0.3"
+gunicorn = "^22.0.0"
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+dev = "flask --app page_analyzer.app:app run"
+
