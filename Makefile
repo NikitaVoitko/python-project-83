@@ -16,4 +16,5 @@ PORT ?= 8000
 start:
 	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer.app:app
 
-# Add additional commands if needed
+build:
+	.page_analyzer/scripts/build.sh
