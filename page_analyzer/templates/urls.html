@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Page Analyzer</title>
+    <title>Page Analyzer - URLs</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
@@ -11,14 +11,25 @@
         <a class="navbar-brand" href="#">Page Analyzer</a>
     </nav>
     <div class="container mt-5">
-        <h1 class="text-center">Welcome to Page Analyzer</h1>
-        <form method="POST" action="{{ url_for('urls') }}">
-            <div class="form-group">
-                <label for="url">Enter URL</label>
-                <input type="text" class="form-control" id="url" name="url" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Submit</button>
-        </form>
+        <h1 class="text-center">Stored URLs</h1>
+        <table class="table" data-test="urls">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Name</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for url in urls %}
+                    <tr>
+                        <td>{{ url.id }}</td>
+                        <td><a href="{{ url_for('show_url', id=url.id) }}">{{ url.name }}</a></td>
+                        <td>{{ url.created_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 <div class="alert alert-info mt-3">

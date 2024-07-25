@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Analyzer - URL Details</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Page Analyzer</a>
+    </nav>
+    <div class="container mt-5">
+        <h1 class="text-center">URL Details</h1>
+        <table class="table" data-test="url">
+            <tr>
+                <th>ID</th>
+                <td>{{ url.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ url.name }}</td>
+            </tr>
+            <tr>
+                <th>Created At</th>
+                <td>{{ url.created_at }}</td>
+            </tr>
+        </table>
