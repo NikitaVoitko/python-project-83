@@ -12,6 +12,9 @@
     </nav>
     <div class="container mt-5">
         <h1 class="text-center">URL Details</h1>
+<form action="{{ url_for('create_check', url_id=url.id) }}" method="post">
+    <button type="submit" class="btn btn-primary">Run Check</button>
+</form>
         <table class="table" data-test="url">
             <tr>
                 <th>ID</th>
@@ -26,3 +29,11 @@
                 <td>{{ url.created_at }}</td>
             </tr>
         </table>
+<h3>Checks</h3>
+<ul>
+{% for check in checks %}
+    <li>Check ID: {{ check.id }}, Created at: {{ check.created_at }}</li>
+{% else %}
+    <li>No checks performed yet.</li>
+{% endfor %}
+</ul>
