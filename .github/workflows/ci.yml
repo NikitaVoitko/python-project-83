@@ -14,8 +14,17 @@ jobs:
         with:
           python-version: '3.8'
 
+      - name: Install Poetry
+        run: |
+          curl -sSL https://install.python-poetry.org | python3 -
+          export PATH="$HOME/.local/bin:$PATH"
+
       - name: Install dependencies
-        run: poetry install
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          poetry install
 
       - name: Lint with flake8
-        run: make lint
+        run: |
+          export PATH="$HOME/.local/bin:$PATH"
+          make lint
