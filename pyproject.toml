@@ -27,4 +27,4 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.poetry.scripts]
 dev = "flask --app page_analyzer.app:app run"
-
+build = "build.sh"
