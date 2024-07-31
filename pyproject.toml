@@ -24,7 +24,3 @@ flake8 = "^7.1.0"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-dev = "flask --app page_analyzer.app:app run"
-build = "build.sh"
