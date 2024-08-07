@@ -24,7 +24,6 @@ def get_all_urls():
     ''')
     urls = cursor.fetchall()
     conn.commit()
-    cursor.close()
     conn.close()
     return urls
 
@@ -35,7 +34,6 @@ def get_url_by_id(url_id):
     cursor.execute('SELECT * FROM urls WHERE id = %s', (url_id,))
     url = cursor.fetchone()
     conn.commit()
-    cursor.close()
     conn.close()
     return url
 
@@ -49,7 +47,6 @@ def get_checks_by_url_id(url_id):
      )
     checks = cursor.fetchall()
     conn.commit()
-    cursor.close()
     conn.close()
     return checks
 
@@ -63,7 +60,6 @@ def add_url(name):
     )
     new_id = cursor.fetchone()['id']
     conn.commit()
-    cursor.close()
     conn.close()
     return new_id
 
@@ -74,7 +70,6 @@ def url_exists(name):
     cursor.execute('SELECT * FROM urls WHERE name = %s', (name,))
     existing_url = cursor.fetchone()
     conn.commit()
-    cursor.close()
     conn.close()
     return existing_url
 
@@ -89,6 +84,5 @@ def add_url_check(url_id, status_code, h1, title, description):
      )
     check_id, created_at = cursor.fetchone()
     conn.commit()
-    cursor.close()
     conn.close()
     return check_id, created_at
