@@ -23,6 +23,7 @@ def get_all_urls():
         ORDER BY last_checked DESC NULLS LAST
     ''')
     urls = cursor.fetchall()
+    conn.commit()
     cursor.close()
     conn.close()
     return urls
@@ -33,6 +34,7 @@ def get_url_by_id(url_id):
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute('SELECT * FROM urls WHERE id = %s', (url_id,))
     url = cursor.fetchone()
+    conn.commit()
     cursor.close()
     conn.close()
     return url
@@ -46,6 +48,7 @@ def get_checks_by_url_id(url_id):
      (url_id,)
      )
     checks = cursor.fetchall()
+    conn.commit()
     cursor.close()
     conn.close()
     return checks
@@ -70,6 +73,7 @@ def url_exists(name):
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute('SELECT * FROM urls WHERE name = %s', (name,))
     existing_url = cursor.fetchone()
+    conn.commit()
     cursor.close()
     conn.close()
     return existing_url
