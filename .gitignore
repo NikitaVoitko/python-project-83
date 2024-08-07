@@ -1,1 +1,11 @@
 .env
+.venv/
+dist/
+__pycache__/
+.idea/
+.coverage
+coverage.xml
+bin/
+dist/
+lib/python3.12/site-packages/
+.pytest_cache/
