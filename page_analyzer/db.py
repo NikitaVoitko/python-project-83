@@ -86,3 +86,11 @@ def add_url_check(url_id, status_code, h1, title, description):
     conn.commit()
     conn.close()
     return check_id, created_at
+
+
+def get_url_id_by_name(url):
+    conn = get_db_connection()
+    with conn.cursor() as cursor:
+        cursor.execute("SELECT id FROM urls WHERE name = %s", (url,))
+        result = cursor.fetchone()
+        return result['id'] if result else None
