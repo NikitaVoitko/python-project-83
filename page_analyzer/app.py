@@ -1,5 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash
+# from flask import Response
 import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
@@ -42,7 +43,7 @@ def urls():
             return redirect(url_for('index'))
         if not is_valid_url(url):
             flash('Некорректный URL')
-            return redirect(url_for('index'))
+            return render_template('index.html'), 422
 
         if url_exists(url):
             flash('Страница уже существует')
