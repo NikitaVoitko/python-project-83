@@ -12,7 +12,7 @@ from .db import (
     add_url,
     url_exists,
     add_url_check,
-    get_url_id_by_name
+    # get_url_id_by_name
 )
 
 load_dotenv()
@@ -47,8 +47,9 @@ def urls():
 
         if url_exists(url):
             flash('Страница уже существует')
-            existing_url_id = get_url_id_by_name(url)
-            return redirect(url_for('view_url', url_id=existing_url_id))
+            # existing_url_id = get_url_id_by_name(url)
+            return render_template('index.html')
+            # return redirect(url_for('view_url', url_id=existing_url_id))
 
         new_id = add_url(url)
         flash('Страница успешно добавлена')
