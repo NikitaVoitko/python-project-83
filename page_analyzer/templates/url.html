@@ -16,7 +16,7 @@
             <h1 class="text-center">{{ url.name }}</h1>
         </div>
         <form action="{{ url_for('create_check', url_id=url.id) }}" method="post">
-            <button type="submit" class="btn btn-primary">Run Check</button>
+            <input type="submit" class="btn btn-primary" value="Run Check">
         </form>
         <table class="table mt-3" data-test="checks">
             <thead>
