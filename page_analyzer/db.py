@@ -51,9 +51,9 @@ def get_checks_by_url_id(url_id):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(
-     'SELECT * FROM url_checks WHERE url_id = %s ORDER BY created_at DESC',
-     (url_id,)
-     )
+        'SELECT * FROM url_checks WHERE url_id = %s ORDER BY created_at DESC',
+        (url_id,)
+    )
     checks = cursor.fetchall()
     conn.commit()
     conn.close()
@@ -78,7 +78,9 @@ def url_exists(name):
     normalized_name = normalize_url(name)
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
-    cursor.execute('SELECT * FROM urls WHERE name = %s', (normalized_name,))
+    cursor.execute(
+        'SELECT * FROM urls WHERE name = %s', (normalized_name,)
+    )
     existing_url = cursor.fetchone()
     conn.commit()
     conn.close()
@@ -89,10 +91,10 @@ def add_url_check(url_id, status_code, h1, title, description):
     conn = get_db_connection()
     cursor = conn.cursor(cursor_factory=RealDictCursor)
     cursor.execute(
-     'INSERT INTO url_checks (url_id, status_code, h1, title, description)'
-     'VALUES (%s, %s, %s, %s, %s) RETURNING id, created_at',
-     (url_id, status_code, h1, title, description)
-     )
+        'INSERT INTO url_checks (url_id, status_code, h1, title, description)'
+        'VALUES (%s, %s, %s, %s, %s) RETURNING id, created_at',
+        (url_id, status_code, h1, title, description)
+    )
     check_id, created_at = cursor.fetchone()
     conn.commit()
     conn.close()
