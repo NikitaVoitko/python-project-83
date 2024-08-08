@@ -88,3 +88,7 @@ def create_check(url_id):
     except requests.RequestException:
         flash('Произошла ошибка при проверке')
     return redirect(url_for('view_url', url_id=url_id))
+
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000, debug=True)
