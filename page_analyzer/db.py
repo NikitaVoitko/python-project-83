@@ -90,7 +90,7 @@ def add_url_check(url_id, status_code, h1, title, description):
 
 def get_url_id_by_name(url):
     conn = get_db_connection()
-    with conn.cursor() as cursor:
+    with conn.cursor(cursor_factory=RealDictCursor) as cursor:
         cursor.execute("SELECT id FROM urls WHERE name = %s", (url,))
         result = cursor.fetchone()
         return result['id'] if result else None

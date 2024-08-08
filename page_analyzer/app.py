@@ -12,7 +12,7 @@ from .db import (
     add_url,
     url_exists,
     add_url_check,
-    get_url_id_by_name  # не забудьте добавить эту функцию в модуль db
+    get_url_id_by_name
 )
 
 load_dotenv()
