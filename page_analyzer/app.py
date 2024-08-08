@@ -1,6 +1,6 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash
-from flask import jsonify
+# from flask import jsonify
 import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
@@ -39,7 +39,7 @@ def urls():
             return redirect(url_for('index'))
         if not is_valid_url(url):
             flash('Некорректный URL')
-            return jsonify({'error': 'Некорректный URL'}), 422
+            return redirect(url_for('index'))
 
         if url_exists(url):
             flash('Страница уже существует')
