@@ -1,10 +1,9 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash
-# from flask import Response
 import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-from urllib.parse import urlparse
+from urllib.parse import urlparse, urlunparse
 from .db import (
     get_all_urls,
     get_url_by_id,
@@ -12,7 +11,7 @@ from .db import (
     add_url,
     url_exists,
     add_url_check,
-    # get_url_id_by_name
+    get_url_id_by_name
 )
 
 load_dotenv()
@@ -29,6 +28,14 @@ def is_valid_url(url):
         return False
 
 
+def normalize_url(url):
+    parsed_url = urlparse(url)
+    normalized_url = urlunparse(
+        (parsed_url.scheme, parsed_url.netloc, '', '', '', '')
+    )
+    return normalized_url
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -38,20 +45,21 @@ def index():
 def urls():
     if request.method == 'POST':
         url = request.form['url']
-        if len(url) > 255:
+        normalized_url = normalize_url(url)
+
+        if len(normalized_url) > 255:
             flash('URL слишком длинный')
             return redirect(url_for('index'))
-        if not is_valid_url(url):
+        if not is_valid_url(normalized_url):
             flash('Некорректный URL')
             return render_template('index.html'), 422
 
-        if url_exists(url):
+        if url_exists(normalized_url):
             flash('Страница уже существует')
-            # existing_url_id = get_url_id_by_name(url)
-            return render_template('index.html')
-            # return redirect(url_for('view_url', url_id=existing_url_id))
+            existing_url_id = get_url_id_by_name(normalized_url)
+            return redirect(url_for('view_url', url_id=existing_url_id))
 
-        new_id = add_url(url)
+        new_id = add_url(normalized_url)
         flash('Страница успешно добавлена')
         return redirect(url_for('view_url', url_id=new_id))
 
