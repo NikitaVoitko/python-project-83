@@ -1,8 +1,10 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import jsonify
 import requests
 from bs4 import BeautifulSoup
 from dotenv import load_dotenv
+from urllib.parse import urlparse
 from .db import (
     get_all_urls,
     get_url_by_id,
@@ -18,6 +20,11 @@ app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
 
 
+def is_valid_url(url):
+    parsed = urlparse(url)
+    return bool(parsed.netloc) and bool(parsed.scheme)
+
+
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -30,13 +37,16 @@ def urls():
         if len(url) > 255:
             flash('URL слишком длинный')
             return redirect(url_for('index'))
+        if not is_valid_url(url):
+            flash('Некорректный URL')
+            return jsonify({'error': 'Некорректный URL'}), 422
 
         if url_exists(url):
             flash('URL уже существует')
             return redirect(url_for('index'))
 
         new_id = add_url(url)
-        flash('URL успешно добавлен')
+        flash('Страница успешно добавлена')
         return redirect(url_for('view_url', url_id=new_id))
 
     urls = get_all_urls()
@@ -72,7 +82,7 @@ def create_check(url_id):
             description = description_meta.get('content')
 
         add_url_check(url_id, status_code, h1, title, description)
-        flash('Check created successfully!')
+        flash('Страница успешно проверена')
     except requests.RequestException:
         flash('Произошла ошибка при проверке')
     return redirect(url_for('view_url', url_id=url_id))
