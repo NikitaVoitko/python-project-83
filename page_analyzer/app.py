@@ -42,7 +42,7 @@ def urls():
             return jsonify({'error': 'Некорректный URL'}), 422
 
         if url_exists(url):
-            flash('URL уже существует')
+            flash('Страница уже существует')
             return redirect(url_for('index'))
 
         new_id = add_url(url)
