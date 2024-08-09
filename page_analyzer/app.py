@@ -1,9 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, flash
 import requests
-from bs4 import BeautifulSoup
 from dotenv import load_dotenv
-from urllib.parse import urlparse, urlunparse
 from .db import (
     get_all_urls,
     get_url_by_id,
@@ -13,27 +11,13 @@ from .db import (
     add_url_check,
     get_url_id_by_name
 )
+from .utils import is_valid_url, normalize_url
+from .parser import parse_html
 
 load_dotenv()
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
-
-
-def is_valid_url(url):
-    try:
-        result = urlparse(url)
-        return all([result.scheme in ['http', 'https'], result.netloc])
-    except ValueError:
-        return False
-
-
-def normalize_url(url):
-    parsed_url = urlparse(url)
-    normalized_url = urlunparse(
-        (parsed_url.scheme, parsed_url.netloc, '', '', '', '')
-    )
-    return normalized_url
 
 
 @app.route('/')
@@ -87,13 +71,7 @@ def create_check(url_id):
         response.raise_for_status()
         status_code = response.status_code
 
-        soup = BeautifulSoup(response.text, 'html.parser')
-        h1 = soup.h1.string if soup.h1 else None
-        title = soup.title.string if soup.title else None
-        description = None
-        description_meta = soup.find('meta', attrs={'name': 'description'})
-        if description_meta:
-            description = description_meta.get('content')
+        h1, title, description = parse_html(response.text)
 
         add_url_check(url_id, status_code, h1, title, description)
         flash('Страница успешно проверена')
